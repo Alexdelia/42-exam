@@ -6,11 +6,12 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:18:41 by adelille          #+#    #+#             */
-/*   Updated: 2021/09/13 15:26:08 by adelille         ###   ########.fr       */
+/*   Updated: 2021/09/13 15:38:16 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdarg.h>
 
 typedef struct s_flags
 {
@@ -34,7 +35,7 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-void	ft_putstr(char *str)
+void	ft_putstr(char *s)
 {
 	write(1, s, ft_strlen(s));
 }
@@ -46,7 +47,7 @@ void	ft_strcpy(char *dest, char *src)
 	i = 0;
 	while (dest[i] && src[i])
 	{
-		dest[i] == src[i];
+		dest[i] = src[i];
 		i++;
 	}
 	dest[i] = '\0';
@@ -60,14 +61,15 @@ int	ft_atoi_skip(char **str)
 	while (**str && **str >= '0' && **str <= '9')
 	{
 		n = n * 10 + (**str - '0');
-		(*s)++;
+		(*str)++;
 	}
 	return ((int)n);
 }
 
-int	ft_convert_s(va_list str, t_flags *f)
+int	ft_convert_s(va_list str, t_flags *flags)
 {
 	int		len;
+	int		count;
 	char	s[400000];
 	char	*tmp;
 
@@ -106,11 +108,11 @@ int	ft_convert_s(va_list str, t_flags *f)
 		return (count);
 	}
 	else
-		ft_putstr(str);
+		ft_putstr(s);
 	return (len);
 }
 
-char	*ft_parse(char *str. t_flags *flags)
+char	*ft_parse(char *str, t_flags *flags)
 {
 	flags->w = -1;
 	flags->precis = -1;
@@ -134,23 +136,23 @@ int	ft_printf(char *str, ...)
 	count = 0;
 	while (*str)
 	{
-		if (str[i] == '%')
+		if (*str == '%')
 		{
 			str++;
 			// parse w, ., precis
 			str = ft_parse(str, &flags);
-			if (flags->type == 's')
+			if (flags.type == 's')
 				count += ft_convert_s(value, &flags);
-			/*else if (flags->type == 'd')
+			/*else if (flags.type == 'd')
 				count += ft_convert_d(value, &flags);
-			else if (flags->type == 'x')
+			else if (flags.type == 'x')
 				count += ft_convert_x(value, &flags);*/
 			else
 				return (-1);
 		}
 		else
 		{
-			write(1, &str[i], 1);
+			ft_putchar(*str++);
 			count++;
 		}
 	}
