@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:18:41 by adelille          #+#    #+#             */
-/*   Updated: 2021/09/13 16:54:11 by adelille         ###   ########.fr       */
+/*   Updated: 2021/09/15 15:17:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,33 @@ int		ft_nbrlen(long long n, int base)
 {
 	int	i;
 
-	if (n < 0)
-		n = -n;
+	if (n == 0)
+		return (1);
 	i = 0;
+	if (n < 0)
+	{
+		n = -n;
+		i++;	
+	}
 	while (n > 0)
 	{
 		n /= base;
 		i++;
 	}
 	return (i);
+}
+
+void	ft_putnbr_base(long long n, char *base, int divider)
+{
+	if (n < 0)
+	{
+		ft_putchar('-');
+		ft_putnbr_base(-n, base, divider);
+		return ;
+	}
+	if (n > divider - 1)
+		ft_putnbr_base(n / divider, base, divider);
+	ft_putchar(base[n % divider]);
 }
 
 char	*ft_itoa(char *s, int n)
@@ -154,50 +172,59 @@ int	ft_convert_s(va_list str, t_flags *flags)
 	return (len);
 }
 
-int	ft_convert_fdx(char *s, t_flags *flags)
+int	ft_convert_d(va_list val, t_flags *flags)
 {
+	long	n;
 	int		len;
 	int		count;
 
-	len = ft_strlen(s);
+	n = (long)va_arg(val, int);
+	len = ft_nbrlen(n, 10);
 	if (flags->w != -1 && flags->precis != -1)
 	{
 		count = flags->w > len ? flags->w : len;
-		while (flags->w-- > len)
+		while (flags->w > (flags->precis > len ? (n < 0 ? flags->precis + 1 : flags->precis) : len))
+		{
 			ft_putchar(' ');
+			flags->w--;
+		}
+		if (n < 0)
+		{
+			ft_putchar('-');
+			n = -n;
+			len--;
+		}
+		count = count > flags->precis ? count : flags->precis;
 		while (flags->precis-- > len)
 			ft_putchar('0');
-		ft_putstr(s);
+		ft_putnbr_base(n, "0123456789", 10);
 		return (count);
 	}
 	else if (flags->w != -1)
 	{
-		count = (flags->w > len ? flags->w : len);
+		count = flags->w > len ? flags->w : len;
 		while (flags->w-- > len)
 			ft_putchar(' ');
-		ft_putstr(s);
+		ft_putnbr_base(n, "0123456789", 10);
 		return (count);
 	}
 	else if (flags->precis != -1)
 	{
-		count = (flags->precis > len ? flags->precis : len);
+		count = 0;
+		if (n < 0)
+		{
+			ft_putchar('-');
+			n = -n;
+			len--;
+			count = 1;
+		}
 		while (flags->precis-- > len)
 			ft_putchar('0');
-		ft_putstr(s);
+		ft_putnbr_base(n, "0123456789", 10);
 		return (count);
 	}
-	else
-		ft_putstr(s);
+	ft_putnbr_base(n, "0123456789", 10);
 	return (len);
-}
-
-int	ft_convert_d(va_list val, t_flags *flags)
-{
-	char	s[400000];
-	int		n;
-
-	n = va_arg(val, int);
-	return (ft_convert_fdx(ft_itoa(s, n), flags));
 }
 
 /*int	ft_convert_x(va_list val, t_flags *flags)
