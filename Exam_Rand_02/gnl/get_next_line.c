@@ -3,130 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <adelille@student.42.fr>            +#+  +:+       +#+        */
+/*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/23 05:55:00 by user42            #+#    #+#             */
-/*   Updated: 2021/02/23 05:55:01 by user42           ###   ########.fr       */
+/*   Created: 2021/10/28 16:23:19 by adelille          #+#    #+#             */
+/*   Updated: 2021/10/28 16:31:32 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_strlen(char *str)
+int	get_next_line(char **line)
 {
 	int		i;
+	int		line_index;
+	int		res;
+	char	c;
+	char	*tmp;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strjoin(char *remains, char *buffer)
-{
-	char			*res;
-	unsigned int	size;
-	int				i;
-	int				j;
-
-	if (!remains && !buffer)
-		return (NULL);
-	size = ft_strlen(remains) + ft_strlen(buffer);
-	if (!(res = (char *)malloc(sizeof(char) * (size + 1))))
-		return (NULL);
-	i = 0;
-	j = 0;
-	if (remains)
-	{
-		while (remains[i])
-		{
-			res[j] = remains[i];
-			i++;
-			j++;
-		}
-		i = 0;
-	}
-	while (buffer[i])
-	{
-		res[j] = buffer[i];
-		i++;
-		j++;
-	}
-	res[size] = '\0';
-	free((void *)remains);
-	return (res);
-}
-
-char	*push_line(char *remains)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	while (remains[i] && remains[i] != '\n')
-		i++;
-	if (!(res = (char *)malloc(sizeof(char) * (i + 1))))
-		return (NULL);
-	i = 0;
-	while (remains[i] && remains[i] != '\n')
-	{
-		res[i] = remains[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
-
-char	*cut_next_line(char *remains)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	i = 0;
-	j = 0;
-	while (remains[i] && remains[i] != '\n')
-		i++;
-	if (!remains[i])
-	{
-		free(remains);
-		return (NULL);
-	}
-	if (!(res = (char *)malloc(sizeof(char) * (ft_strlen(remains) - i + 1))))
-		return (NULL);
-	i++;
-	while (remains[i])
-	{
-		res[i] = remains[i];
-		i++;
-		j++;
-	}
-	res[j] = '\0';
-	free(remains);
-	return (res);
-}
-
-int		get_next_line(char **line)
-{
-	char		buffer[BUFFER_SIZE + 1];
-	static char	*remains;
-	int			ret;
-	int			fd;
-
-	ret = 1;
-	fd = 0;
-	if (!line)
+	res = 0;
+	line_index = 1;
+	if (!(*line = malloc(line_index)))
 		return (-1);
-	while (buffer[0] != '\n' && ret != 0)
+	(*line)[0] = 0;
+	while ((res = read(0, &c, 1)) && line_index++ && c != '\n')
 	{
-		if ((ret = read(fd, buffer, BUFFER_SIZE)) == -1)
+		if (!(tmp = malloc(line_index)))
+		{
+			free(*line);
 			return (-1);
-		buffer[ret] = '\0';
-		remains = ft_strjoin(remains, buffer);
+		}
+		i = -1;
+		while (++i < line_index - 2)
+			tmp[i] = (*line)[i];
+		tmp[i] = c;
+		tmp[i + 1] = 0;
+		free(*line);
+		*line = tmp;
 	}
-	*line = push_line(remains);
-	remains = cut_next_line(remains);
-	return ((ret == 0) ? 0 : 1);
+	return (res);
 }
