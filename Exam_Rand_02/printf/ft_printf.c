@@ -1,24 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   re_ft_printf.c                                     :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:18:41 by adelille          #+#    #+#             */
-/*   Updated: 2021/09/15 15:17:46 by adelille         ###   ########.fr       */
+/*   Updated: 2021/10/29 21:02:07 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdarg.h>
-
-typedef struct s_flags
-{
-	int		w;
-	int		precis;
-	char	type;
-}			t_flags;
 
 int	ft_strlen(char *str)
 {
@@ -30,53 +23,17 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-void	ft_putchar(char c)
-{
-	write(1, &c, 1);
-}
-
-void	ft_putstr(char *s)
-{
-	write(1, s, ft_strlen(s));
-}
-
-void	ft_strcpy(char *dest, char *src)
+int	ft_nbrlen(int n, int base)
 {
 	int	i;
 
 	i = 0;
-	while (dest[i] && src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-}
-
-int	ft_atoi_skip(char **str)
-{
-	long n;
-
-	n = 0;
-	while (**str && **str >= '0' && **str <= '9')
-	{
-		n = n * 10 + (**str - '0');
-		(*str)++;
-	}
-	return ((int)n);
-}
-
-int		ft_nbrlen(long long n, int base)
-{
-	int	i;
-
 	if (n == 0)
 		return (1);
-	i = 0;
 	if (n < 0)
 	{
+		i++;
 		n = -n;
-		i++;	
 	}
 	while (n > 0)
 	{
@@ -86,200 +43,151 @@ int		ft_nbrlen(long long n, int base)
 	return (i);
 }
 
-void	ft_putnbr_base(long long n, char *base, int divider)
+int	ft_xlen(unsigned int x, int base)
 {
-	if (n < 0)
+	int	i;
+
+	i = 0;
+	if (x == 0)
+		return (1);
+	while (x > 0)
 	{
-		ft_putchar('-');
-		ft_putnbr_base(-n, base, divider);
-		return ;
+		x /= base;
+		i++;
 	}
-	if (n > divider - 1)
-		ft_putnbr_base(n / divider, base, divider);
-	ft_putchar(base[n % divider]);
+	return (i);
 }
 
-char	*ft_itoa(char *s, int n)
+int	ft_pc(char c)
 {
-	int		len;
+	write(1, &c, 1);
+	return (1);
+}
+
+int	ft_ps(char *str)
+{
+	write(1, str, ft_strlen(str));
+	return (ft_strlen(str));
+}
+
+int	ft_pn(int n, char *base, int base_len)
+{
+	char	buffer[10000];
+	int		i;
 
 	if (n == 0)
+		return (ft_pc('0'));
+	i = ft_nbrlen(n, base_len);
+	if (n < 0 && base_len == 10)
 	{
-		s[0] = '0';
-		s[1] = '\0';
-		return (s);
+		buffer[0] = '-';
+		n = -n;
 	}
-	len = ft_nbrlen(n, 10) - 1;
-	if (n < 0)
-	{
-		s[0] = '-';
-		len++;
-	}
-	s[len] = '\0';
-	len--;
+	buffer[i] = '\0';
+	i--;
 	while (n > 0)
 	{
-		s[len] = n % 10 + '0';
-		n /= 10;
-		len--;
+		buffer[i] = base[n % base_len];
+		n /= base_len;
+		i--;
 	}
-	return (s);
+	return (ft_ps(buffer));
 }
 
-int	ft_convert_s(va_list str, t_flags *flags)
+int	ft_px(unsigned int x, char *base, int base_len)
 {
-	int		len;
-	int		count;
-	char	s[400000];
-	char	*tmp;
+	char	buffer[10000];
+	int		i;
 
-	tmp = va_arg(str, char *);
-	if (tmp == NULL)
-		ft_strcpy(s, "(null)"); // MIGHT BE FALSE
-	else
-		ft_strcpy(s, tmp);
-	len = ft_strlen(s);
-	if (flags->w != -1 && flags->precis != -1)
+	if (x == 0)
+		return (ft_pc('0'));
+	i = ft_xlen(x, base_len);
+	buffer[i] = '\0';
+	i--;
+	while (x > 0)
 	{
-		while (len > flags->precis)
-			len--;
-		s[len + 1] = 0;
-		count = flags->w > len ? flags->w : len;
-		while (flags->w-- > len)
-			ft_putchar(' ');
-		ft_putstr(s);
-		return (count);
+		buffer[i] = base[x % base_len];
+		x /= base_len;
+		i--;
 	}
-	else if (flags->w != -1)
-	{
-		count = (flags->w > len ? flags->w : len);
-		while (flags->w-- > len)
-			ft_putchar(' ');
-		ft_putstr(s);
-		return (count);
-	}
-	else if (flags->precis != -1)
-	{
-		count = (flags->precis < len ? flags->precis : len);
-		while (len > flags->precis)
-			len--;
-		s[len + 1] = 0;
-		ft_putstr(s);
-		return (count);
-	}
-	else
-		ft_putstr(s);
-	return (len);
+	return (ft_ps(buffer));
 }
 
-int	ft_convert_d(va_list val, t_flags *flags)
+void	ft_strcpy(char *dst, char *src)
 {
-	long	n;
-	int		len;
-	int		count;
+	int	i;
 
-	n = (long)va_arg(val, int);
-	len = ft_nbrlen(n, 10);
-	if (flags->w != -1 && flags->precis != -1)
+	i = 0;
+	while (dst[i] && src[i])
 	{
-		count = flags->w > len ? flags->w : len;
-		while (flags->w > (flags->precis > len ? (n < 0 ? flags->precis + 1 : flags->precis) : len))
-		{
-			ft_putchar(' ');
-			flags->w--;
-		}
-		if (n < 0)
-		{
-			ft_putchar('-');
-			n = -n;
-			len--;
-		}
-		count = count > flags->precis ? count : flags->precis;
-		while (flags->precis-- > len)
-			ft_putchar('0');
-		ft_putnbr_base(n, "0123456789", 10);
-		return (count);
+		dst[i] = src[i];
+		i++;
 	}
-	else if (flags->w != -1)
-	{
-		count = flags->w > len ? flags->w : len;
-		while (flags->w-- > len)
-			ft_putchar(' ');
-		ft_putnbr_base(n, "0123456789", 10);
-		return (count);
-	}
-	else if (flags->precis != -1)
-	{
-		count = 0;
-		if (n < 0)
-		{
-			ft_putchar('-');
-			n = -n;
-			len--;
-			count = 1;
-		}
-		while (flags->precis-- > len)
-			ft_putchar('0');
-		ft_putnbr_base(n, "0123456789", 10);
-		return (count);
-	}
-	ft_putnbr_base(n, "0123456789", 10);
-	return (len);
+	dst[i] = '\0';
 }
 
-/*int	ft_convert_x(va_list val, t_flags *flags)
+int	ft_convert_s(char *str)
 {
-	unsigned int	n;
-
-	n = va_arg(val, unsigned int);
-	return (ft_convert_dfx(ft_xtoa(n), flags);
-}*/
-
-char	*ft_parse(char *str, t_flags *flags)
-{
-	flags->w = -1;
-	flags->precis = -1;
-	if (*str >= '0' && *str <= '9')
-		flags->w = ft_atoi_skip(&str);
-	if (*str == '.')
-		str++;
-	if (*str >= '0' && *str <= '9')
-		flags->precis = ft_atoi_skip(&str);
-	flags->type = *str++;
-	return (str);
+	if (!str)
+		return (ft_ps("(null)"));
+	return (ft_ps(str));
 }
 
-int	ft_printf(char *str, ...)
+int	ft_convert_d(int n)
 {
-	int		count;
-	va_list	value;
-	t_flags	flags;	
+	return (ft_pn(n, "0123456789", 10));
+}
 
-	va_start(value, str);
-	count = 0;
-	while (*str)
+int	ft_convert_x(unsigned int x)
+{
+	return (ft_px(x, "0123456789abcdef", 16));
+}
+
+int	ft_convert(va_list arg, const char *format, int i)
+{
+	int	len;
+
+	len = 0;
+	if (format[i])
 	{
-		if (*str == '%')
-		{
-			str++;
-			// parse w, ., precis
-			str = ft_parse(str, &flags);
-			if (flags.type == 's')
-				count += ft_convert_s(value, &flags);
-			else if (flags.type == 'd')
-				count += ft_convert_d(value, &flags);
-			/*else if (flags.type == 'x')
-				count += ft_convert_x(value, &flags);*/
-			else
-				return (-1);
-		}
+		if (format[i] == 's')
+			len = ft_convert_s(va_arg(arg, char *));
+		else if (format[i] == 'd')
+			len = ft_convert_d(va_arg(arg, int));
+		else if (format[i] == 'x')
+			len = ft_convert_x(va_arg(arg, unsigned int));
 		else
 		{
-			ft_putchar(*str++);
-			count++;
+			ft_pc('%');
+			ft_pc(format[i]);
+			return (2);
 		}
 	}
+	else
+		return (ft_pc('%'));
+	return (len);
+}
 
-	va_end(value);
-	return (count);
+int	ft_printf(const char *format, ...)
+{
+	va_list	arg;
+	int		len;
+	int		i;
+
+	va_start(arg, format);
+	len = 0;
+	i = 0;
+	while (format[i])
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			len += ft_convert(arg, format, i);
+		}
+		else
+			len += ft_pc(format[i]);
+		i++;
+	}
+	va_end(arg);
+	return (len);
 }
