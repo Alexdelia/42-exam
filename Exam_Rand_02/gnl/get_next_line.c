@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/05 19:00:04 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/05 19:06:06 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,24 @@ int		ft_strlen(char *str)
 
 void	ft_strcpy(char *dst, char *src)
 {
+	int	i;
 
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
 }
 
 char	*ft_strdup(char *str)
 {
 	char	*res;
 
+	if (!(res = (char *)malloc(sizeof(char) * ft_strlen(str) + 1)))
+		return (NULL);
+	ft_strcpy(res, str);
 	return (res);
 }
 
@@ -38,6 +49,10 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*res;
 
+	if (!(res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+		return (NULL);
+	ft_strcpy(res, s1);
+	ft_strcpy(&res[ft_strlen(s1)], s2);
 	return (res);
 }
 

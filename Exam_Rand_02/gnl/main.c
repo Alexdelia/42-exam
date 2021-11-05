@@ -3,29 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <adelille@student.42.fr>            +#+  +:+       +#+        */
+/*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/22 00:15:59 by user42            #+#    #+#             */
-/*   Updated: 2021/02/22 00:18:12 by user42           ###   ########.fr       */
+/*   Created: 2021/11/05 19:14:46 by adelille          #+#    #+#             */
+/*   Updated: 2021/11/05 19:18:45 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "get_next_line.h"
+#include <stdio.h>
+#include <fcntl.h>
+#include <string.h>
 
-int		main(void)
+int	main(int ac, char **av)
 {
-	int		r;
+	char	*file;
 	char	*line;
+    int		fd;
 
-	line = NULL;
-	while ((r = get_next_line(&line)) > 0)
+	if (ac != 2)
+		file = strdup("get_next_line.c");
+	else
+		file = strdup(av[1]);
+	if (!file)
+		return (printf("Malloc error\n") * 0 + 1);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
 	{
-		printf("%s\n", line);
-		free(line);
+		free(file);
+		return (printf("Error: Can't open \"%s\"\n", file) * 0 + 1);
 	}
-	printf("%s", line);
-	free(line);
+
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
+	}
+	return (0);
 }
