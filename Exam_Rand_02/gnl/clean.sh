@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -rf yours.res original.res gnl
+rm -rf yours.res yours_.res original.res gnl

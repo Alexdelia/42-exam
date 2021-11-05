@@ -6,11 +6,13 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/05 19:06:06 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/05 20:12:59 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+#include <stdio.h>
 
 int		ft_strlen(char *str)
 {
@@ -85,9 +87,9 @@ char	*get_next_line(int fd)
 		read(fd, buffer, BUFFER_SIZE);
 	i = 0;
 	res = 1;
-	while (1)
+	while (res != 0)
 	{
-		if ((i = ft_check_n(buffer)) != -1 || res == 0)
+		if ((i = ft_check_n(buffer)) != -1)
 		{
 			to_free = line;
 			size = ft_strlen(line);
@@ -114,5 +116,7 @@ char	*get_next_line(int fd)
 				return (NULL);
 		}
 	}
-	return (line);
+	//write(1, "no\n", 3);
+	//free(line);
+	return (NULL);
 }
