@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: user42 <adelille@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/05 18:43:14 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/05 18:44:50 by adelille         ###   ########.fr       */
+/*   Created: 2021/02/21 23:24:03 by user42            #+#    #+#             */
+/*   Updated: 2021/10/28 16:31:56 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*get_next_line(int fd);
+//# define BUFFER_SIZE 1
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
-# endif
+int		get_next_line(char **line);
 
 #endif

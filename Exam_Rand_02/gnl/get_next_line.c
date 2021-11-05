@@ -5,40 +5,99 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/28 16:23:19 by adelille          #+#    #+#             */
-/*   Updated: 2021/10/28 16:31:32 by adelille         ###   ########.fr       */
+/*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
+/*   Updated: 2021/11/05 19:00:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	get_next_line(char **line)
+int		ft_strlen(char *str)
 {
-	int		i;
-	int		line_index;
-	int		res;
-	char	c;
-	char	*tmp;
+	int	i;
 
-	res = 0;
-	line_index = 1;
-	if (!(*line = malloc(line_index)))
-		return (-1);
-	(*line)[0] = 0;
-	while ((res = read(0, &c, 1)) && line_index++ && c != '\n')
-	{
-		if (!(tmp = malloc(line_index)))
-		{
-			free(*line);
-			return (-1);
-		}
-		i = -1;
-		while (++i < line_index - 2)
-			tmp[i] = (*line)[i];
-		tmp[i] = c;
-		tmp[i + 1] = 0;
-		free(*line);
-		*line = tmp;
-	}
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void	ft_strcpy(char *dst, char *src)
+{
+
+}
+
+char	*ft_strdup(char *str)
+{
+	char	*res;
+
 	return (res);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*res;
+
+	return (res);
+}
+
+int	ft_check_n(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (!str[i])
+		return (-1);
+	return (i);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	buffer[BUFFER_SIZE] = { 0 };
+	char		*line;
+	char		*to_free;
+	int			i;
+	int			size;
+	int			res;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!(line = ft_strdup("")))
+		return (NULL);
+	if (buffer[0] == '\0')
+		read(fd, buffer, BUFFER_SIZE);
+	i = 0;
+	res = 1;
+	while (1)
+	{
+		if ((i = ft_check_n(buffer)) != -1 || res == 0)
+		{
+			to_free = line;
+			size = ft_strlen(line);
+			line = ft_strjoin(line, buffer);
+			free(to_free);
+			line[size + i + 1] = '\0';
+			if (i == -1)
+				buffer[0] = '\0';
+			ft_strcpy(buffer, &buffer[i + 1]);
+			if (*line == '\0')
+			{
+				free(line);
+				return (NULL);
+			}
+			return (line);
+		}
+		else
+		{
+			to_free = line;
+			line = ft_strjoin(line, buffer);
+			free(to_free);
+			res = read(fd, buffer, BUFFER_SIZE);
+			if (res == -1)
+				return (NULL);
+		}
+	}
+	return (line);
 }
