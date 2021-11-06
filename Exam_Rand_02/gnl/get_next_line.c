@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/06 10:30:31 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/06 12:32:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,6 @@ char	*get_next_line(int fd)
 			line = ft_strjoin(line, buffer);
 			free(to_free);
 			line[size + i + 1] = '\0';
-			if (i == -1)
-				buffer[0] = '\0';
 			ft_strcpy_b(buffer, &buffer[i + 1]);
 			if (*line == '\0')
 			{

@@ -11,7 +11,7 @@ do
 	./gnl < get_next_line.c > yours_.res
 	cat -e yours_.res > yours.res
 	diff -y --suppress-common-line original.res yours.res
-	i=$(( $i + 1 ))
+	i=$(( i + 1 ))
 done
 
 rm -rf yours_.res gnl
