@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/06 12:32:15 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/06 12:36:01 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (buffer[0] == '\0')
 		read(fd, buffer, BUFFER_SIZE);
-	i = 0;
 	res = 1;
 	while (res > 0)
 	{
