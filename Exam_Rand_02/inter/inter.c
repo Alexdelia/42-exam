@@ -6,7 +6,7 @@
 /*   By: user42 <adelille@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/21 22:53:03 by user42            #+#    #+#             */
-/*   Updated: 2021/02/21 23:16:46 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/06 12:39:15 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,6 @@ int		main(int ac, char **av)
 	if (ac != 3)
 		return (ft_putres("oui", 0));
 	i = 0;
-	while (res[i])
-	{
-		res[i] = '\0';
-		i++;
-	}
-	i = 0;
 	j = 0;
 	while (av[1][i])
 	{
@@ -58,5 +52,6 @@ int		main(int ac, char **av)
 		}
 		i++;
 	}
+	res[j] = '\0';
 	return (ft_putres(res, j));
 }
