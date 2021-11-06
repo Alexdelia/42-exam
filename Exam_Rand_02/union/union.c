@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 06:03:56 by adelille          #+#    #+#             */
-/*   Updated: 2021/02/19 06:56:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/11/06 12:42:48 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,6 @@ int		main(int ac, char **av)
 
 	if (ac != 3)
 		return (ft_res("oui", -1));
-	i = 0;
-	while (res[i])
-	{
-		res[i] = '\0';
-		i++;
-	}
 	j = 0;
 	i = 0;
 	while (av[1][i])
@@ -72,5 +66,6 @@ int		main(int ac, char **av)
 		}
 		i++;
 	}
+	res[j] = '\0';
 	return (ft_res(res, j));
 }
