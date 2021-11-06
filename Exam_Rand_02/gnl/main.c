@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 19:14:46 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/05 19:18:45 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/06 10:26:36 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,7 @@ int	main(int ac, char **av)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(file);
+	close(fd);
 	return (0);
 }

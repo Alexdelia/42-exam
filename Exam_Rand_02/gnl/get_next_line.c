@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/05 20:12:59 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/06 10:30:31 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,23 @@ void	ft_strcpy(char *dst, char *src)
 		i++;
 	}
 	dst[i] = '\0';
+}
+
+void	ft_strcpy_b(char *dst, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	while (i < BUFFER_SIZE)
+	{
+		dst[i] = '\0';
+		i++;
+	}
 }
 
 char	*ft_strdup(char *str)
@@ -87,7 +104,7 @@ char	*get_next_line(int fd)
 		read(fd, buffer, BUFFER_SIZE);
 	i = 0;
 	res = 1;
-	while (res != 0)
+	while (res > 0)
 	{
 		if ((i = ft_check_n(buffer)) != -1)
 		{
@@ -98,7 +115,7 @@ char	*get_next_line(int fd)
 			line[size + i + 1] = '\0';
 			if (i == -1)
 				buffer[0] = '\0';
-			ft_strcpy(buffer, &buffer[i + 1]);
+			ft_strcpy_b(buffer, &buffer[i + 1]);
 			if (*line == '\0')
 			{
 				free(line);
@@ -112,11 +129,8 @@ char	*get_next_line(int fd)
 			line = ft_strjoin(line, buffer);
 			free(to_free);
 			res = read(fd, buffer, BUFFER_SIZE);
-			if (res == -1)
-				return (NULL);
 		}
 	}
-	//write(1, "no\n", 3);
-	//free(line);
+	free(line);
 	return (NULL);
 }
