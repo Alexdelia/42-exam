@@ -5,22 +5,32 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/05 18:45:11 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/06 12:36:01 by adelille         ###   ########.fr       */
+/*   Created: 2021/11/07 15:03:21 by adelille          #+#    #+#             */
+/*   Updated: 2021/11/07 15:55:42 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#include <stdio.h>
-
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 		i++;
+	return (i);
+}
+
+int	ft_n(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (!str[i])
+		return (-1);
 	return (i);
 }
 
@@ -58,73 +68,63 @@ char	*ft_strdup(char *str)
 {
 	char	*res;
 
-	if (!(res = (char *)malloc(sizeof(char) * ft_strlen(str) + 1)))
+	res = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!res)
 		return (NULL);
 	ft_strcpy(res, str);
 	return (res);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2, int f1, int f2)
 {
 	char	*res;
 
-	if (!(res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1))))
+	res = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!res)
 		return (NULL);
 	ft_strcpy(res, s1);
 	ft_strcpy(&res[ft_strlen(s1)], s2);
+	if (f1 == 1)
+		free(s1);
+	if (f2 == 1)
+		free(s2);
 	return (res);
-}
-
-int	ft_check_n(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE] = { 0 };
 	char		*line;
-	char		*to_free;
-	int			i;
-	int			size;
+	int			n;
 	int			res;
+	int			size;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!(line = ft_strdup("")))
+	line = ft_strdup("");
+	if (!line)
 		return (NULL);
 	if (buffer[0] == '\0')
 		read(fd, buffer, BUFFER_SIZE);
 	res = 1;
 	while (res > 0)
 	{
-		if ((i = ft_check_n(buffer)) != -1)
+		n = ft_n(buffer);
+		if (n > -1)
 		{
-			to_free = line;
 			size = ft_strlen(line);
-			line = ft_strjoin(line, buffer);
-			free(to_free);
-			line[size + i + 1] = '\0';
-			ft_strcpy_b(buffer, &buffer[i + 1]);
-			if (*line == '\0')
-			{
-				free(line);
+			line = ft_strjoin_free(line, buffer, 1, 0);
+			if (!line)
 				return (NULL);
-			}
+			line[size + n + 1] = '\0';
+			ft_strcpy_b(buffer, &buffer[n + 1]);
 			return (line);
 		}
 		else
 		{
-			to_free = line;
-			line = ft_strjoin(line, buffer);
-			free(to_free);
+			line = ft_strjoin_free(line, buffer, 1, 0);
+			if (!line)
+				return (NULL);
 			res = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
