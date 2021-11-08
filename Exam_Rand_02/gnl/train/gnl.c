@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/07 15:03:21 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/07 15:54:50 by adelille         ###   ########.fr       */
+/*   Created: 2021/11/08 13:14:37 by adelille          #+#    #+#             */
+/*   Updated: 2021/11/08 13:27:39 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE] = { 0 };
 	char		*line;
-	int			n;
 	int			res;
 	int			size;
+	int			n;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
