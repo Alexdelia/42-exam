@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:03:21 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/07 15:55:42 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:34:35 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	*ft_strjoin_free(char *s1, char *s2, int f1, int f2)
 
 char	*get_next_line(int fd)
 {
-	static char	buffer[BUFFER_SIZE] = { 0 };
+	static char	*buffer = NULL;
 	char		*line;
 	int			n;
 	int			res;
@@ -101,6 +101,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if (buffer == NULL)
+	{
+		buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+		if (!buffer)
+			return (NULL);
+	}
 	line = ft_strdup("");
 	if (!line)
 		return (NULL);
@@ -128,6 +134,7 @@ char	*get_next_line(int fd)
 			res = read(fd, buffer, BUFFER_SIZE);
 		}
 	}
+	free(buffer);
 	free(line);
 	return (NULL);
 }
