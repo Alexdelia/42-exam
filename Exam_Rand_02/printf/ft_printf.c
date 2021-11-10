@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:18:41 by adelille          #+#    #+#             */
-/*   Updated: 2021/10/29 21:02:07 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:59:06 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_pn(int n, char *base, int base_len)
 
 	if (n == 0)
 		return (ft_pc('0'));
+	if (n == -2147483648)
+		return (ft_ps("-2147483648"));
 	i = ft_nbrlen(n, base_len);
 	if (n < 0 && base_len == 10)
 	{
