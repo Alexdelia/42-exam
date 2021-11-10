@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 15:03:21 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/09 16:34:35 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/10 11:15:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,17 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (buffer == NULL)
+	if (!buffer)
 	{
-		buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+		buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		if (!buffer)
 			return (NULL);
+		res = 0;
+		while (res <= BUFFER_SIZE)
+		{
+			buffer[res] = '\0';
+			res++;
+		}
 	}
 	line = ft_strdup("");
 	if (!line)
