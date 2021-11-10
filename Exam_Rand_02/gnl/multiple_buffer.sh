@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cat -e "" > original.res
+rm -rf original.res
+touch original.res
 
 i=-2
 

@@ -6,11 +6,11 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 19:14:46 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/07 15:29:38 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/10 17:32:43 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gnl.h"
+#include "get_next_line.h"
 #include <stdio.h>
 #include <fcntl.h>
 #include <string.h>
@@ -22,7 +22,7 @@ int	main(int ac, char **av)
     int		fd;
 
 	if (ac != 2)
-		file = strdup("gnl.c");
+		file = strdup("get_next_line.c");
 	else
 		file = strdup(av[1]);
 	if (!file)
