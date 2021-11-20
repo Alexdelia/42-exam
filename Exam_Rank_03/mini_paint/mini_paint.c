@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   micro_paint.c                                      :+:      :+:    :+:   */
+/*   mini_paint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:59:48 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/20 14:57:16 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/20 15:02:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define	CORPT	"Error: Operation file corrupted\n"
 #define ARG		"Error: argument\n"
@@ -30,8 +31,7 @@ typedef struct s_shape
 	char			type;
 	float			x;
 	float			y;
-	float			w;
-	float			h;
+	float			radius;
 	char			color;
 }					t_shape;
 
@@ -68,8 +68,8 @@ int	ft_check_zone(t_zone *zone)
 
 int	ft_check_shape(t_shape *s)
 {
-	return (s->w > 0.00000000 && s->h > 0.00000000
-		&& (s->type == 'r' || s->type == 'R'));
+	return (s->radius > 0.00000000
+		&& (s->type == 'c' || s->type == 'C'));
 }
 
 int	ft_get_zone(FILE *file, t_zone *zone)
@@ -98,15 +98,18 @@ char	*ft_init_draw(t_zone *zone)
 	return (draw);
 }
 
-int		ft_in_rectangle(float x, float y, t_shape *s)
+int		ft_in_circle(float x, float y, t_shape *s)
 {
-	if (((x < s->x || (s->x + s->w < x))
-				|| (y < s->y)) || (s->y + s->h < y))
-		return (0);
-	if (((x - s->x < 1.00000000) || ((s->x + s->w) - x < 1.00000000))
-			|| ((y - s->y < 1.00000000 || ((s->y + s->h) - y < 1.00000000))))
-		return (2);
-	return (1);
+	float	distance;
+
+	distance = sqrtf(powf(x - s->x, 2.) + powf(y - s->y, 2.));
+	if (distance <= s->radius)
+	{
+		if ((s->radius - distance) < 1.00000000)
+			return (2);
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_draw_shape(char *draw, t_shape *s, t_zone *zone)
@@ -121,9 +124,9 @@ void	ft_draw_shape(char *draw, t_shape *s, t_zone *zone)
 		x = 0;
 		while (x < zone->w)
 		{
-			ret = ft_in_rectangle(x, y, s);
-			if ((s->type == 'r' && ret == 2)
-					|| (s->type == 'R' && ret))
+			ret = ft_in_circle((float)x, (float)y, s);
+			if ((s->type == 'c' && ret == 2)
+					|| (s->type == 'C' && ret))
 				draw[(y * zone->w) + x] = s->color;
 			x++;
 		}
@@ -136,8 +139,8 @@ int	ft_get_shapes(FILE *file, char *draw, t_zone *zone)
 	t_shape	s;
 	int		scanf_ret;
 
-	while ((scanf_ret = fscanf(file, "%c %f %f %f %f %c\n",
-					&s.type, &s.x, &s.y, &s.w, &s.h, &s.color)) == 6)
+	while ((scanf_ret = fscanf(file, "%c %f %f %f %c\n",
+					&s.type, &s.x, &s.y, &s.radius, &s.color)) == 5)
 	{
 		if (!ft_check_shape(&s))
 			return (0);
