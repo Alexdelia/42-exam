@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 15:59:48 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/20 15:02:47 by adelille         ###   ########.fr       */
+/*   Updated: 2021/11/21 16:49:51 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	ft_get_shapes(FILE *file, char *draw, t_zone *zone)
 			return (0);
 		ft_draw_shape(draw, &s, zone);
 	}
-	if (scanf_ret == -1)
+	if (scanf_ret == EOF)
 		return (1);
 	return (0);
 }
