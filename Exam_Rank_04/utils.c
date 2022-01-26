@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 22:09:47 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 22:13:04 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:24:57 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,9 @@ int	error(const char *text, const int ret)
 	if (text)
 		write(STDERR, text, ft_strlen(text));
 	return (ret);
+}
+
+void	fatal(void)
+{
+	exit(error("error: fatal\n", EXIT_FAILURE));
 }

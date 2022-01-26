@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 15:48:24 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:18:39 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static int	parse(t_cmd **list, char *av)
 	if (b && !*list)
 		return (0);
 	else if (!b && (!*list || (*list)->type != TYPE_END))
-		return (cmd_addback(list, av));
+		return (cmd_add_av(list, av));
 	else if (strcmp("|", av) == 0)
 		(*list)->type = TYPE_PIPE;
 	else if (b)
 		(*list)->type = TYPE_BREAK;
 	else
-		return (cmd_addfront(list, av));
+		return (cmd_add_back(list, av));
 	return (0);
 }
 
