@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 15:48:11 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:11:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define MICROSHELL_H
 
 # include <unistd.h>
-//# include <stdlib.h>
-//# include <string.h>
+# include <stdlib.h>
+# include <string.h>
 
 # define TRUE		1
 # define FALSE		0
@@ -36,8 +36,10 @@ typedef struct s_cmd
 	int				pipes[2];
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
-}
+}					t_cmd;
 
 int	exec_list(t_cmd **list, char **env);
+
+int	error(const char *text, const int ret);
 
 #endif
