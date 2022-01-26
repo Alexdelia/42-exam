@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 15:20:54 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 15:35:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <unistd.h>
 //# include <stdlib.h>
 //# include <string.h>
+
+# define TRUE		1
+# define FALSE		0
 
 # define STDIN		0
 # define STDOUT		1
