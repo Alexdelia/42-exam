@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 22:26:47 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:28:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_cmd
 }					t_cmd;
 
 int		exec_list(t_cmd **list, char **env);
+
+int		cmd_add_av(t_cmd *cmd, char *av);
 
 int		error(const char *text, const int ret);
 void	fatal(void);

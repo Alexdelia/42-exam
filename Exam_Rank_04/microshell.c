@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 22:18:39 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/26 22:28:48 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ static int	parse(t_cmd **list, char *av)
 		b = TRUE;
 	if (b && !*list)
 		return (0);
-	else if (!b && (!*list || (*list)->type != TYPE_END))
-		return (cmd_add_av(list, av));
-	else if (strcmp("|", av) == 0)
-		(*list)->type = TYPE_PIPE;
-	else if (b)
-		(*list)->type = TYPE_BREAK;
-	else
+	else if (!b && (!*list || (*list)->type != T_END))
 		return (cmd_add_back(list, av));
+	else if (strcmp("|", av) == 0)
+		(*list)->type = T_PIPE;
+	else if (b)
+		(*list)->type = T_BREAK;
+	else
+		return (cmd_add_av(*list, av));
 	return (0);
 }
 
-int	main(int ac, char **av, char *env)
+int	main(int ac, char **av, char **env)
 {
 	t_cmd	*list;
 	int		ret;
@@ -40,12 +40,9 @@ int	main(int ac, char **av, char *env)
 
 	ret = EXIT_SUCCESS;
 	list = NULL;
-	i = 1;
-	while (i < ac)
-	{
+	i = 0;
+	while (++i < ac)
 		parse(&list, av[i]);
-		i++;
-	}
 	if (list)
 		ret = exec_list(&list, env);
 	cmd_clear(&list);
