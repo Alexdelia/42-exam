@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:47:29 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:17:04 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:28:11 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	exec_cd(char **av, int i)
 	}
 }
 
-int	exec(char **av, int i, int tmp_fd, char **env)
+int	exec(char **av, int i, int fd, char **env)
 {
 	av[i] = NULL;
-	close(tmp_fd);
+	close(fd);
 	execve(av[0], av, env);
 	ft_pser("error: cannot execute ");
 	ft_pser(av[0]);

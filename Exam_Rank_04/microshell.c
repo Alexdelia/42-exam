@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:25:37 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:28:59 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	main(int ac, char **av, char **env)
 {
 	int	pid;
-	int	fd[2];
-	int	tmp_fd;
+	int	pipe[2];
+	int	fd;
 	int	i;
 
 	(void)ac;
 	pid = 0;
-	tmp_fd = dup(STDIN_FILENO);
+	fd = dup(STDIN_FILENO);
 	i = 0;
 	while (av[i] && av[i + 1]) // could use ac
 	{
@@ -36,22 +36,40 @@ int	main(int ac, char **av, char **env)
 			pid = fork();
 			if (pid == 0)
 			{
-				dup2(tmp_fd, STDIN_FILENO);
-				if (exec(av, i, tmp_fd, env))
+				dup2(fd, STDIN_FILENO);
+				if (exec(av, i, fd, env))
 					return (1);
 			}
 			else
 			{
-				close(tmp_fd);
+				close(fd);
 				waitpid(-1, NULL, WUNTRACED);
-				tmp_fd = dup(STDIN_FILENO);
+				fd = dup(STDIN_FILENO);
 			}
 		}
 		else if (av != &av[i] && strcmp(av[i], "|") == 0)
 		{
-
+			pipe(pipe);
+			pid = fork();
+			if (pid == 0)
+			{
+				dup2(fd, STDIN_FILENO);
+				dup2(pipe[1], STDOUT_FILENO);
+				close(pipe[0]);
+				close(pipe[1]);
+				if (exec(av, i, fd, env))
+					return (1);
+			}
+			else
+			{
+				close(pipe[1]);
+				close(fd);
+				waitpid(-1, NULL, WUNTRACED);
+				fd = dup(pipe[0]);
+				close(pipe[0]);
+			}
 		}
 	}
-	// close fd/pipe
+	close(fd);
 	return (0);
 }
