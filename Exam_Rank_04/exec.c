@@ -6,42 +6,31 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:47:29 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/26 22:12:29 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 15:41:41 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "microshell.h"
 
-static int	exec_cd(t_cmd *cmd)
+void	exec_cd(char **av)
 {
-	if (cmd->len < 2)
-		return (error("error: cd: badarguments\n", 1));
-	else if (chdir(cmd->av[1]))
+	if (i != 2)
+		ft_pser("error: cd: badarguments\n", 1);
+	else if (chdir(av[1]))
 	{
-		error("error: cd: cannot change directory to", 1);
-		error(cmd->av[1], 1);
-		return (error("\n", 1));
+		ft_pser("error: cd: cannot change directory to", 1);
+		ft_pser(av[1], 1);
+		ft_pser("\n", 1);
 	}
-	return (EXIT_SUCCESS);
 }
 
-int	exec_list(t_cmd **list, char **env)
+int	exec(char **av, int i, int tmp_fd, char **env)
 {
-	t_cmd	*cmd;
-	int		ret;
-
-	ret = EXIT_SUCCESS;
-	cmd_rewind(list);
-	while (*list)
-	{
-		cmd = *list;
-		if (strcmp("cd", cmd->av[0]) == 0)
-			ret = exec_cd(cmd);
-		else
-			ret = exec_cmd(cmd, env);
-		if (!(*list)->next)
-			break ;
-		*list = (*list)->next;
-	}
-	return (ret);
+	av[i] = NULL;
+	close(tmp_fd);
+	execve(av[0], av, env);
+	ft_pser("error: cannot execute ");
+	ft_pser(av[0]);
+	ft_pser("\n");
+	return (1);
 }
