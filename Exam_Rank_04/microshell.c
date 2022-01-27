@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:28:59 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:35:12 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **env)
 	int	i;
 
 	(void)ac;
-	pid = 0;
+	//pid = 0;
 	fd = dup(STDIN_FILENO);
 	i = 0;
 	while (av[i] && av[i + 1]) // could use ac
