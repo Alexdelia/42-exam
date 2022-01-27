@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:17:10 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:24:49 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 //# include <stdlib.h>
 # include <string.h>
+# include <sys/wait.h>
 
 /*# define TRUE		1
 # define FALSE		0*/
