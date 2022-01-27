@@ -6,13 +6,13 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:47:29 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:09:26 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:17:04 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "microshell.h"
 
-void	exec_cd(char **av)
+void	exec_cd(char **av, int i)
 {
 	if (i != 2)
 		ft_pser("error: cd: badarguments\n");

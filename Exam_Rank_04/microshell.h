@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 15:46:35 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:17:10 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define STDERR		2
 
 int		exec(char **av, int i, int tmp_fd, char **env);
-void	exec_cd(char **av);
+void	exec_cd(char **av, int i);
 
 int		ft_pser(const char *str);
 
