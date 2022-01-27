@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:35:12 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:36:24 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	int	pid;
-	int	pipe[2];
+	int	pip[2];
 	int	fd;
 	int	i;
 
@@ -49,24 +49,24 @@ int	main(int ac, char **av, char **env)
 		}
 		else if (av != &av[i] && strcmp(av[i], "|") == 0)
 		{
-			pipe(pipe);
+			pipe(pip);
 			pid = fork();
 			if (pid == 0)
 			{
 				dup2(fd, STDIN_FILENO);
-				dup2(pipe[1], STDOUT_FILENO);
-				close(pipe[0]);
-				close(pipe[1]);
+				dup2(pip[1], STDOUT_FILENO);
+				close(pip[0]);
+				close(pip[1]);
 				if (exec(av, i, fd, env))
 					return (1);
 			}
 			else
 			{
-				close(pipe[1]);
+				close(pip[1]);
 				close(fd);
 				waitpid(-1, NULL, WUNTRACED);
-				fd = dup(pipe[0]);
-				close(pipe[0]);
+				fd = dup(pip[0]);
+				close(pip[0]);
 			}
 		}
 	}
