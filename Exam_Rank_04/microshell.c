@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 15:48:44 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:11:01 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 int	main(int ac, char **av, char **env)
 {
+	int	pid;
+	int	fd[2];
+	int	tmp_fd;
 	int	i;
 
+	(void)ac;
+	pid = 0;
+	tmp_fd = dup(STDIN_FILENO);
 	i = 0;
-	// init val
-
 	while (av[i] && av[i + 1]) // could use ac
 	{
-		// move av
-		// calc len of arg
-
+		av = &av[i + 1];
+		i = 0;
 		if (strcmp(av[0], "cd") == 0)
 			exec_cd(av);
 		else if (/* ; */)

@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:47:29 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 15:41:41 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/27 18:09:26 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	exec_cd(char **av)
 {
 	if (i != 2)
-		ft_pser("error: cd: badarguments\n", 1);
+		ft_pser("error: cd: badarguments\n");
 	else if (chdir(av[1]))
 	{
-		ft_pser("error: cd: cannot change directory to", 1);
-		ft_pser(av[1], 1);
-		ft_pser("\n", 1);
+		ft_pser("error: cd: cannot change directory to");
+		ft_pser(av[1]);
+		ft_pser("\n");
 	}
 }
 
