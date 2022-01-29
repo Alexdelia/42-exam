@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:24:49 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/29 15:25:54 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@
 # define STDIN		0
 # define STDOUT		1
 # define STDERR		2
+
+// for Glaglan's test.sh
+#ifdef TEST_SH
+# define TEST		1
+#else
+# define TEST		0
+#endif
 
 int		exec(char **av, int i, int tmp_fd, char **env);
 void	exec_cd(char **av, int i);

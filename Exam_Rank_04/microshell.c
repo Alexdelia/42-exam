@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:11:28 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/27 18:36:24 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/29 15:26:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,7 @@ int	main(int ac, char **av, char **env)
 		}
 	}
 	close(fd);
+	if (TEST)
+		while (1);
 	return (0);
 }
