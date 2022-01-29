@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:12:04 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/29 15:25:54 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/29 21:06:51 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@
 int		exec(char **av, int i, int tmp_fd, char **env);
 void	exec_cd(char **av, int i);
 
-int		ft_pser(const char *str);
-
-//int		error(const char *text, const int ret);
-//void	fatal(void);
+ssize_t	ft_pser(const char *str);
 
 #endif
