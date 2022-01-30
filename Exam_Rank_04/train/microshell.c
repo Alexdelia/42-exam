@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/29 20:48:41 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/29 21:14:40 by adelille         ###   ########.fr       */
+/*   Created: 2022/01/30 12:00:33 by adelille          #+#    #+#             */
+/*   Updated: 2022/01/30 12:15:47 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define TEST		0
 #endif
 
-static void	ft_pser(char *str)
+static void	ft_pser(const char *str)
 {
 	size_t	i;
 
@@ -60,7 +60,7 @@ int	main(int ac, char **av, char **env)
 		if (strcmp(av[0], "cd") == 0)
 		{
 			if (i != 2)
-				ft_pser("error: cd: bad arguments\n");
+				ft_pser("error: cd: bad arguments");
 			else if (chdir(av[1]))
 			{
 				ft_pser("error: cd: cannot change directory to");
