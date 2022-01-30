@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 12:00:33 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/30 12:20:18 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/30 17:19:24 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **env)
 				ft_pser("error: cd: bad arguments\n");
 			else if (chdir(av[1]))
 			{
-				ft_pser("error: cd: cannot change directory to");
+				ft_pser("error: cd: cannot change directory to ");
 				ft_pser(av[1]);
 				ft_pser("\n");
 			}
@@ -94,7 +94,7 @@ int	main(int ac, char **av, char **env)
 				dup2(pip[1], STDOUT_FILENO);
 				close(pip[0]);
 				close(pip[1]);
-				if (exec(av, i, fd, env))
+				if (exec(av, i , fd, env))
 					return (1);
 			}
 			else
