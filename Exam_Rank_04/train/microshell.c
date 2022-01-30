@@ -6,7 +6,7 @@
 /*   By: adelille <adelille@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/30 12:00:33 by adelille          #+#    #+#             */
-/*   Updated: 2022/01/30 17:19:24 by adelille         ###   ########.fr       */
+/*   Updated: 2022/01/30 17:22:46 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(int ac, char **av, char **env)
 				dup2(pip[1], STDOUT_FILENO);
 				close(pip[0]);
 				close(pip[1]);
-				if (exec(av, i , fd, env))
+				if (exec(av, i, fd, env))
 					return (1);
 			}
 			else
