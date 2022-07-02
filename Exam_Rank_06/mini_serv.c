@@ -40,9 +40,9 @@ void	error(void)
 
 void	send_all(const int src)
 {
-	for (int i = 0; i <= max; i++)
-		if (FD_ISSET(i, &ready_write) && i != src)
-			send(i, buf_write, strlen(buf_write), 0);
+	for (int fd = 0; fd <= max; fd++)
+		if (FD_ISSET(fd, &ready_write) && fd != src)
+			send(fd, buf_write, strlen(buf_write), 0);
 }
 
 int	main(int ac, char **av)
@@ -61,7 +61,6 @@ int	main(int ac, char **av)
 
 	struct sockaddr_in	addr;
 	socklen_t			addr_len = sizeof(addr);
-
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(2130706433);	// 127.0.0.1
 	addr.sin_port = htons(atoi(av[1]));
@@ -81,7 +80,7 @@ int	main(int ac, char **av)
 		{
 			if (FD_ISSET(s, &ready_read) && s == s_fd)
 			{
-		 		int c_fd = accept(s_fd, (struct sockaddr *)&addr, &addr_len);
+				int	c_fd = accept(s_fd, (struct sockaddr *)&addr, &addr_len);
 				if (c_fd < 0)
 					continue ;
 				max = (c_fd > max ? c_fd : max);
