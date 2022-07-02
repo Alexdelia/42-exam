@@ -12,14 +12,14 @@ const int	BUF_SIZE = 42 * 4096;
 
 typedef struct s_client
 {
-	int	id;
+	int		id;
 	char	msg[110000];
 }			t_client;
 
 t_client	g_c[1024];
 
 int		max, next_id = 0;
-fd_set	sock, ready_read, ready_write;
+fd_set	curr, ready_read, ready_write;
 char	buf_read[BUF_SIZE], buf_write[BUF_SIZE];
 
 ssize_t	ft_psfd(const int fd, const char *str)
@@ -51,14 +51,13 @@ int	main(int ac, char **av)
 		return (!!ft_psfd(2, "Wrong number of arguments\n"));
 
 	bzero(&g_c, sizeof(g_c));
-	FD_ZERO(&sock);
-
+	FD_ZERO(&curr);
+	
 	int	s_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (s_fd < 0)
 		error();
-
 	max = s_fd;
-	FD_SET(s_fd, &sock);
+	FD_SET(s_fd, &curr);
 
 	struct sockaddr_in	addr;
 	socklen_t			addr_len = sizeof(addr);
@@ -67,14 +66,14 @@ int	main(int ac, char **av)
 	addr.sin_addr.s_addr = htonl(2130706433);	// 127.0.0.1
 	addr.sin_port = htons(atoi(av[1]));
 
-	if ((bind(s_fd, (const struct sockaddr *)&addr, sizeof(addr))) < 0)
+	if ((bind(s_fd, (const struct sockaddr *)&addr, addr_len)) < 0)
 		error();
 	if (listen(s_fd, 128) < 0)
 		error();
 
 	while (1)
 	{
-		ready_read = ready_write = sock;
+		ready_read = ready_write = curr;
 		if (select(max + 1, &ready_read, &ready_write, NULL, NULL) < 0)
 			continue ;
 
@@ -82,12 +81,12 @@ int	main(int ac, char **av)
 		{
 			if (FD_ISSET(s, &ready_read) && s == s_fd)
 			{
-				int	c_fd = accept(s_fd, (struct sockaddr *)&addr, &addr_len);
+		 		int c_fd = accept(s_fd, (struct sockaddr *)&addr, &addr_len);
 				if (c_fd < 0)
 					continue ;
 				max = (c_fd > max ? c_fd : max);
 				g_c[c_fd].id = next_id++;
-				FD_SET(c_fd, &sock);
+				FD_SET(c_fd, &curr);
 				sprintf(buf_write, "server: client %d just arrived\n", g_c[c_fd].id);
 				send_all(c_fd);
 				break ;
@@ -100,7 +99,7 @@ int	main(int ac, char **av)
 				{
 					sprintf(buf_write, "server: client %d just left\n", g_c[s].id);
 					send_all(s);
-					FD_CLR(s, &sock);
+					FD_CLR(s, &curr);
 					close(s);
 					break ;
 				}
@@ -123,6 +122,5 @@ int	main(int ac, char **av)
 			}
 		}
 	}
-
 	return (0);
 }
