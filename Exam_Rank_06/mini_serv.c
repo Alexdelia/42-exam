@@ -52,7 +52,7 @@ int	main(int ac, char **av)
 
 	bzero(&g_c, sizeof(g_c));
 	FD_ZERO(&curr);
-	
+
 	int	s_fd = socket(AF_INET, SOCK_STREAM, 0);
 	if (s_fd < 0)
 		error();
