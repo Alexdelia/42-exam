@@ -1,5 +1,7 @@
 //	code from https://github.com/luta-wolf/42-examrank/blob/master/ExamRank_06/mini_serv.c
 
+//	solution work on exam linux dump (05/07/2022)
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +10,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
-const int	BUF_SIZE = 42 * 4096;
+//const int	BUF_SIZE = 42 * 4096;
+const int	BUF_SIZE = 127032;		// (42 * 4096)
 
 typedef struct s_client
 {
@@ -16,11 +19,13 @@ typedef struct s_client
 	char	msg[110000];
 }			t_client;
 
-t_client	g_c[1024];
+//t_client	g_c[1024];
+t_client	g_c[4096];	// test 8 in exam test more than 1024 client (05/07/2022)
 
 int		max, next_id = 0;
 fd_set	curr, ready_read, ready_write;
-char	buf_read[BUF_SIZE], buf_write[BUF_SIZE];
+//char	buf_read[BUF_SIZE], buf_write[BUF_SIZE];	// clang/gcc do not compile on exam linux dump (05/07/2022)
+char	buf_read[127032], buf_write[127032];
 
 ssize_t	ft_psfd(const int fd, const char *str)
 {
