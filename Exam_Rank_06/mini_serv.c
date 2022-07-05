@@ -1,6 +1,6 @@
 //	code from https://github.com/luta-wolf/42-examrank/blob/master/ExamRank_06/mini_serv.c
 
-//	solution work on exam linux dump (05/07/2022)
+//	solution work on 42Paris exam linux dump (05/07/2022)
 
 #include <unistd.h>
 #include <stdlib.h>
