@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 rm -rf original.res
 touch original.res

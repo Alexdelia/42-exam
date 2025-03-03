@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clang -g -Werror -Wextra -Wall ft_printf.c main.c 
 ./a.out

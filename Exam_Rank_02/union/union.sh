@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clang -Wall -Wextra -Werror union.c -o union
 ./union "Hello, I like to eat potato" "and I need a hug" | cat -e

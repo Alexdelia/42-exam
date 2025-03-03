@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clang -Wall -Wextra -Werror inter.c -o inter
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ARGS="Wrong number of arguments"
 FATAL="Fatal error"
