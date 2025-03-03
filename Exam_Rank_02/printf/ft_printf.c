@@ -6,7 +6,7 @@
 /*   By: adelille <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:18:41 by adelille          #+#    #+#             */
-/*   Updated: 2021/11/10 18:59:06 by adelille         ###   ########.fr       */
+/*   Updated: 2025/03/03 20:03:13 by adelille         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,19 +113,6 @@ int	ft_px(unsigned int x, char *base, int base_len)
 		i--;
 	}
 	return (ft_ps(buffer));
-}
-
-void	ft_strcpy(char *dst, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (dst[i] && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
 }
 
 int	ft_convert_s(char *str)
